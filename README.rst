@@ -1,21 +1,23 @@
 Easy Logger
 ===========
 
-A python package for using logger easily.
+A python package for logging easily.
 
 Installation
 ------------
 
-TODO
+::
+
+    $ pip install easy_logger
 
 Usage
 -----
 
 .. code:: python
 
-    from elogger import Logger
+    from easy_logger import Logger
 
-    logger = Logger.get_stream_logger()
+    logger = Logger.get_logger()
     logger.info('logger')
 
 API
@@ -25,18 +27,15 @@ API
 
     class Logger(object):
 
-        def init_config(self, level=logging.INFO):
-            """Init logging baseConfig
-
-            :param int level: logging level
-            """
-            pass
-
         def get_stream_logger(name):
             """Get logger which has add streamHandler. Output log message to stream.
 
             :param str name: logger name
             """
+            pass
+
+        def get_logger(name):
+            """The same as get_stream_logger."""
             pass
 
         def get_file_logger(name, filepath):
