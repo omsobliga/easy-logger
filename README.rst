@@ -17,7 +17,7 @@ Usage
 
     from easy_logger import Logger
 
-    logger = Logger.get_logger()
+    logger = Logger().get_logger(__name__)
     logger.info('logger')
 
 API
@@ -27,6 +27,10 @@ API
 
     class Logger(object):
 
+        def get_logger(name):
+            """The same as get_stream_logger."""
+            pass
+
         def get_stream_logger(name):
             """Get logger which has add streamHandler. Output log message to stream.
 
@@ -34,14 +38,11 @@ API
             """
             pass
 
-        def get_logger(name):
-            """The same as get_stream_logger."""
-            pass
-
         def get_file_logger(name, filepath):
             """Get logger which has add fileHandler. Output log message to specify file.
 
             :param str name: logger name
+            :param str filepath: the log file path
             """
             pass
 
@@ -50,6 +51,7 @@ API
             Output log message to stream and specify file.
 
             :param str name: logger name
+            :param str filepath: the log file path
             """
             pass
 

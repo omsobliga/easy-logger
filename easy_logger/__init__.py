@@ -21,56 +21,64 @@ class Logger(object):
 
         :param str name: logger name
         """
-        if hasattr(self, 'stream_logger'):
-            return self.stream_logger
-
         logger = logging.getLogger(name)
         logger.setLevel(self._level)
 
-        sh = logging.StreamHandler()
-        sh.setFormatter(self._formatter)
-        logger.addHandler(sh)
+        if not self._has_stream_handler(logger):
+            sh = logging.StreamHandler()
+            sh.setFormatter(self._formatter)
+            logger.addHandler(sh)
 
-        self.stream_logger = logger
-        return self.stream_logger
+        return logger
 
     def get_file_logger(self, name, filepath):
         """Get logger which has add fileHandler. Output log message to specify file.
 
         :param str name: logger name
+        :param str name: the log file path
         """
-        if hasattr(self, 'file_logger'):
-            return self.file_logger
-
         logger = logging.getLogger(name)
         logger.setLevel(self._level)
 
-        fh = logging.FileHandler(filepath)
-        fh.setFormatter(self._formatter)
-        logger.addHandler(fh)
+        if not self._has_file_handler(logger):
+            fh = logging.FileHandler(filepath)
+            fh.setFormatter(self._formatter)
+            logger.addHandler(fh)
 
-        self.file_logger = logger
-        return self.file_logger
+        return logger
 
     def get_both_logger(self, name, filepath):
         """Get logger which has both add streamHandler and fileHandler.
         Output log message to stream and specify file.
 
         :param str name: logger name
+        :param str name: the log file path
         """
-        if hasattr(self, 'both_logger'):
-            return self.both_logger
-
         logger = logging.getLogger(name)
         logger.setLevel(self._level)
 
-        sh = logging.StreamHandler()
-        sh.setFormatter(self._formatter)
-        logger.addHandler(sh)
+        if not self._has_stream_handler(logger):
+            sh = logging.StreamHandler()
+            sh.setFormatter(self._formatter)
+            logger.addHandler(sh)
 
-        fh = logging.FileHandler(filepath)
-        fh.setFormatter(self._formatter)
-        logger.addHandler(fh)
+        if not self._has_file_handler(logger):
+            fh = logging.FileHandler(filepath)
+            fh.setFormatter(self._formatter)
+            logger.addHandler(fh)
 
-        self.both_logger = logger
-        return self.both_logger
+        return logger
+
+    # Private functions
+
+    def _has_stream_handler(self, logger):
+        for handler in logger.handlers:
+            if isinstance(handler, logging.StreamHandler):
+                return True
+        return False
+
+    def _has_file_handler(self, logger):
+        for handler in logger.handlers:
+            if isinstance(handler, logging.FileHandler):
+                return True
+        return False
